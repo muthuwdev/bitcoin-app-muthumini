@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
-import {  getPostsStatus, getPostsError,selectLatestPosts } from './PostsSlice';
-import {ContentSection} from '../../styles/PostsList.styles';
+import { getPostsStatus, getPostsError, selectLatestPosts } from './PostsSlice';
+import { ContentSection } from '../../styles/PostsList.styles';
 import PostsItem from './PostsItem';
 import { RootState } from '../../app/store';
 
-
 const PostsList = () => {
-  let orderedPostIds = useSelector((state:RootState) => selectLatestPosts(state, 4));
-  
+  let orderedPostIds = useSelector((state: RootState) =>
+    selectLatestPosts(state, 4)
+  );
 
   const postStatus = useSelector(getPostsStatus);
   const error = useSelector(getPostsError);

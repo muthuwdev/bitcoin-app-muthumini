@@ -1,6 +1,5 @@
-
-import {  useAppDispatch, useAppSelector } from '../../reduxHooks';
-import {ChartContainer,ChartArea} from '../../styles/ChartHistory.styles';
+import { useAppDispatch, useAppSelector } from '../../reduxHooks';
+import { ChartContainer, ChartArea } from '../../styles/ChartHistory.styles';
 import React, { useState, useEffect } from 'react';
 import {
   getHistoryStatus,
@@ -21,9 +20,9 @@ import {
 } from 'recharts';
 
 type FormattedChartVals = {
-  date:string,
-  value:number,
-}
+  date: string;
+  value: number;
+};
 
 const CashHistory = () => {
   const historyStatus = useAppSelector(getHistoryStatus);
@@ -31,38 +30,30 @@ const CashHistory = () => {
   const historyDataPerWeek = useAppSelector((state) =>
     selectPartialHistoryData(state, 30)
   );
-// const [formattedValArr,setFormattedValArr] = useState(new Array<FormattedChartVals>())
-// const [chartMaxBch,setChartMaxBch] = useState(0);
-// const [chartMinBch,setChartMinBch] = useState(0);
-const [ticksArr,setTicksArr] = useState(new Array<number>());
+  const [ticksArr, setTicksArr] = useState(new Array<number>());
 
-let formattedValArr = new Array<FormattedChartVals>();
+  let formattedValArr = new Array<FormattedChartVals>();
   if (historyDataPerWeek) {
-     let  formattedValsTemp = historyDataPerWeek.map((x:HistoryItem) => {
-        return { date: x[0].substr(0, 10), value: Number(x[1]) / 100 };
-      });
-      formattedValArr =formattedValsTemp;
-    }
-    
-      const ids = formattedValArr.map(object => {
-        return object.value;
-      });
-    //   setChartMaxBch(Math.max(...ids)+20);
-    //   setChartMinBch(Math.min(...ids)-10);
-    let chartMaxBch = Math.max(...ids)+20;
-    let chartMinBch = Math.max(...ids)-10;
-    
+    let formattedValsTemp = historyDataPerWeek.map((x: HistoryItem) => {
+      return { date: x[0].substr(0, 10), value: Number(x[1]) / 100 };
+    });
+    formattedValArr = formattedValsTemp;
+  }
 
+  const ids = formattedValArr.map((object) => {
+    return object.value;
+  });
 
+  let chartMaxBch = Math.max(...ids) + 20;
+  let chartMinBch = Math.min(...ids) - 10;
 
   let content;
- 
+
   if (historyStatus === 'loading') {
     content = <p>"Loading..."</p>;
   } else if (historyStatus === 'succeeded') {
     content = (
-      
-        <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%">
         <LineChart
           width={500}
           height={300}
@@ -89,7 +80,7 @@ let formattedValArr = new Array<FormattedChartVals>();
           <ReferenceLine y={100} label="Max" stroke="blue" />
           <Line type="monotone" dataKey="value" stroke="#8884d8" />
         </LineChart>
-        </ResponsiveContainer>
+      </ResponsiveContainer>
     );
   } else if (historyStatus === 'failed') {
     content = <p>{error}</p>;
