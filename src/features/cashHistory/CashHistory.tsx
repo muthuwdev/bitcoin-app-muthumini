@@ -18,6 +18,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from 'recharts';
+import SpotPrice from '../spotPrice/SpotPrice';
 
 type FormattedChartVals = {
   date: string;
@@ -87,9 +88,12 @@ const CashHistory = () => {
   }
 
   return (
-    <ChartContainer>
-      <ChartArea>{content}</ChartArea>
-    </ChartContainer>
+    <div>
+      <SpotPrice />
+      <ChartContainer>
+        <ChartArea>{content}</ChartArea>
+      </ChartContainer>
+    </div>
   );
 };
 
