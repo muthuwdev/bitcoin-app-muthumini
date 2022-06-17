@@ -6,8 +6,8 @@ import PostsList from './features/posts/PostsList';
 
 import Layout from './components/Layout';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import CashHistory from './features/cashHistory/CashHistory';
 import { fetchSpotPrice } from './features/spotPrice/SpotPriceSlice';
+import Dashboard from './features/dashboard/Dashboard';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ function App(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<CashHistory />} />
+        <Route index element={<Dashboard />} />
 
         <Route path="post">
           <Route index element={<PostsList />} />

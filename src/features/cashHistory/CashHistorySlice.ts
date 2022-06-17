@@ -64,6 +64,9 @@ export const selectPartialHistoryData = createSelector(
   (cashHistory, numOfDates) => cashHistory.slice(0, numOfDates)
 );
 
+
+
+
 export const getHistoryStatus = (state:RootState) => state.cashHistory.status;
 export const getHistoryError = (state:RootState) => state.cashHistory.error;
 

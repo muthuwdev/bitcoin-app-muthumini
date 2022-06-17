@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 
 
-export const ChartWrapper = styled.article`
-    align-items: center;
+// export const ChartWrapper = styled.article`
+//     align-items: center;
     
-    font-family: 'Poppins',sans-serif;
+//     font-family: 'Poppins',sans-serif;
   
-    height: 85vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:0;
+//     height: 85vh;
+//     display:flex;
+//     flex-direction:column;
+//     align-items:center;
+//     justify-content:center;
+//     padding:0;
 
-`;
+// `;
 
 
 

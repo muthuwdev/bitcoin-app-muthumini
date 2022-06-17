@@ -34,6 +34,7 @@ const spotPriceSlice = createSlice({
             const loadedSpotPrice = action.payload.data;
             state.price = loadedSpotPrice.price;
             state.stamp = loadedSpotPrice.stamp;
+            state.status = 'succeeded';
 
         })
         .addCase(fetchSpotPrice.rejected, (state, action) => {
@@ -44,7 +45,7 @@ const spotPriceSlice = createSlice({
 })
 
 export const selectBitcoinPrice = (state:RootState) => state.spotPrice;
-
+export const selectBitcoinPriceStatus = (state:RootState) => state.spotPrice.status;
 
 
 export default spotPriceSlice.reducer

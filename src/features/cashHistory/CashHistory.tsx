@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from '../../reduxHooks';
+import { useAppSelector } from '../../reduxHooks';
 import {
-  ChartContainer,
   ChartArea,
-  ChartWrapper,
   ButtonsBar,
   ChartButtons,
+  ChartContainer,
 } from '../../styles/ChartHistory.styles';
-import React, { useState, useEffect } from 'react';
+import { format, parseISO } from 'date-fns';
+import React, { useState } from 'react';
 import {
   getHistoryStatus,
   getHistoryError,
@@ -36,16 +36,15 @@ const CashHistory = () => {
   const error = useAppSelector(getHistoryError);
 
   const [countedDays, setCountedDays] = useState(30);
-  const historyDataPerWeek = useAppSelector((state) =>
+  const historyData = useAppSelector((state) =>
     selectPartialHistoryData(state, countedDays)
   );
-  const [ticksArr, setTicksArr] = useState(new Array<number>());
-  // const [chartViewData, setChartViewData] = useState(historyDataPerWeek);
 
   let formattedValArr = new Array<FormattedChartVals>();
-  if (historyDataPerWeek) {
-    let formattedValsTemp = historyDataPerWeek.map((x: HistoryItem) => {
-      return { date: x[0].substr(0, 10), value: Number(x[1]) / 100 };
+
+  if (historyData) {
+    let formattedValsTemp = historyData.map((x: HistoryItem) => {
+      return { date: x[0].substring(0, 10), value: Number(x[1]) / 100 };
     });
     formattedValArr = formattedValsTemp;
   }
@@ -57,6 +56,31 @@ const CashHistory = () => {
   let chartMin = Math.min(...ids);
   let chartMaxBch = chartMax + 20;
   let chartMinBch = chartMin - 10;
+  let ticks: number[] = [];
+  let dataGap = chartMax - chartMin;
+  dataGap = Math.round(dataGap);
+  dataGap = Math.round(dataGap / 10);
+
+  if (dataGap <= 0) {
+    dataGap = 10;
+  } else {
+    let dataStr = dataGap.toString();
+    dataGap = 10 - Number(dataStr.substring(dataStr.length - 1)) + dataGap;
+  }
+
+  const replaced = Math.round(chartMin).toString().slice(0, -1) + '0';
+  let startVal = Number(replaced);
+  for (let i = startVal; i <= chartMax; ) {
+    ticks.push(i);
+    i = i + dataGap;
+  }
+  if (!ticks.includes(chartMax)) {
+    ticks.push(chartMax);
+  }
+  if (!ticks.includes(chartMin)) {
+    ticks.push(chartMin);
+  }
+  ticks = ticks.sort((a, b) => a - b);
 
   const retrievChartData = (daysCount: number) => {
     setCountedDays(daysCount);
@@ -81,31 +105,37 @@ const CashHistory = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis reversed={true} dataKey="date" />
+          <XAxis
+            reversed={true}
+            dataKey="date"
+            tickFormatter={(str) => {
+              const date = parseISO(str);
+              return format(date, 'MMM, d');
+            }}
+          />
           <YAxis
             domain={[chartMinBch, chartMaxBch]}
             interval="preserveEnd"
             orientation="right"
             dataKey="value"
+            ticks={ticks}
+            tickFormatter={(number) => `$${number.toFixed(2)}`}
           />
           <Tooltip />
           <Legend />
-          {/* <ReferenceLine x="Page C" stroke="red" label="Max PV PAGE" /> */}
+
           <ReferenceLine
             y={chartMax}
             label=""
             stroke="#00cc66"
             strokeDasharray="3 3"
           />
-          {/* <Line dataKey={chartMax} dot={{ stroke: 'red', strokeWidth: 2 }} /> */}
           <ReferenceLine
             y={chartMin}
             label=""
             stroke="#ff4d4d"
             strokeDasharray="3 3"
           />
-          {/* <Line type="monotone" dataKey="value" stroke="#8884d8" /> */}
-          {/* <Line dataKey={chartMax} dot={{ stroke: 'red', strokeWidth: 2 }} /> */}
           <Line
             dataKey="value"
             activeDot={{ stroke: 'blue', strokeWidth: 1, r: 4 }}
@@ -118,18 +148,14 @@ const CashHistory = () => {
   }
 
   return (
-    <ChartWrapper>
-      <SpotPrice />
-
-      <ChartContainer>
-        <ChartArea>{content}</ChartArea>
-        <ButtonsBar>
-          <ChartButtons onClick={() => retrievChartData(1)}>1D</ChartButtons>
-          <ChartButtons onClick={() => retrievChartData(7)}>1W</ChartButtons>
-          <ChartButtons onClick={() => retrievChartData(30)}>1M</ChartButtons>
-        </ButtonsBar>
-      </ChartContainer>
-    </ChartWrapper>
+    <ChartContainer>
+      <ChartArea>{content}</ChartArea>
+      <ButtonsBar>
+        <ChartButtons onClick={() => retrievChartData(1)}>1D</ChartButtons>
+        <ChartButtons onClick={() => retrievChartData(7)}>1W</ChartButtons>
+        <ChartButtons onClick={() => retrievChartData(30)}>1M</ChartButtons>
+      </ButtonsBar>
+    </ChartContainer>
   );
 };
 
