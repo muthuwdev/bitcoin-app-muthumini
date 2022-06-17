@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reduxHooks';
 import { fetchSpotPrice, selectBitcoinPrice } from './SpotPriceSlice';
+import { Wrapper } from '../../styles/SpotPrice.styles';
 
 const SpotPrice = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,6 @@ const SpotPrice = () => {
     setBitCPrice(currentPrice.price / 100);
   }, [currentPrice]);
 
-  return <div>SpotPrice - {bitCPrice}</div>;
+  return <Wrapper>SpotPrice - {bitCPrice}</Wrapper>;
 };
 export default SpotPrice;

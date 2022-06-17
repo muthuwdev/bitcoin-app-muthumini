@@ -1,5 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../reduxHooks';
-import { ChartContainer, ChartArea } from '../../styles/ChartHistory.styles';
+import {
+  ChartContainer,
+  ChartArea,
+  ChartWrapper,
+  ButtonsBar,
+  ChartButtons,
+} from '../../styles/ChartHistory.styles';
 import React, { useState, useEffect } from 'react';
 import {
   getHistoryStatus,
@@ -28,10 +34,13 @@ type FormattedChartVals = {
 const CashHistory = () => {
   const historyStatus = useAppSelector(getHistoryStatus);
   const error = useAppSelector(getHistoryError);
+
+  const [countedDays, setCountedDays] = useState(30);
   const historyDataPerWeek = useAppSelector((state) =>
-    selectPartialHistoryData(state, 30)
+    selectPartialHistoryData(state, countedDays)
   );
   const [ticksArr, setTicksArr] = useState(new Array<number>());
+  // const [chartViewData, setChartViewData] = useState(historyDataPerWeek);
 
   let formattedValArr = new Array<FormattedChartVals>();
   if (historyDataPerWeek) {
@@ -44,9 +53,14 @@ const CashHistory = () => {
   const ids = formattedValArr.map((object) => {
     return object.value;
   });
+  let chartMax = Math.max(...ids);
+  let chartMin = Math.min(...ids);
+  let chartMaxBch = chartMax + 20;
+  let chartMinBch = chartMin - 10;
 
-  let chartMaxBch = Math.max(...ids) + 20;
-  let chartMinBch = Math.min(...ids) - 10;
+  const retrievChartData = (daysCount: number) => {
+    setCountedDays(daysCount);
+  };
 
   let content;
 
@@ -54,7 +68,7 @@ const CashHistory = () => {
     content = <p>"Loading..."</p>;
   } else if (historyStatus === 'succeeded') {
     content = (
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer minWidth={900} minHeight={400}>
         <LineChart
           width={500}
           height={300}
@@ -67,7 +81,7 @@ const CashHistory = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
+          <XAxis reversed={true} dataKey="date" />
           <YAxis
             domain={[chartMinBch, chartMaxBch]}
             interval="preserveEnd"
@@ -77,9 +91,25 @@ const CashHistory = () => {
           <Tooltip />
           <Legend />
           {/* <ReferenceLine x="Page C" stroke="red" label="Max PV PAGE" /> */}
-          <ReferenceLine y={220} label="Max" stroke="red" />
-          <ReferenceLine y={100} label="Max" stroke="blue" />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <ReferenceLine
+            y={chartMax}
+            label=""
+            stroke="#00cc66"
+            strokeDasharray="3 3"
+          />
+          {/* <Line dataKey={chartMax} dot={{ stroke: 'red', strokeWidth: 2 }} /> */}
+          <ReferenceLine
+            y={chartMin}
+            label=""
+            stroke="#ff4d4d"
+            strokeDasharray="3 3"
+          />
+          {/* <Line type="monotone" dataKey="value" stroke="#8884d8" /> */}
+          {/* <Line dataKey={chartMax} dot={{ stroke: 'red', strokeWidth: 2 }} /> */}
+          <Line
+            dataKey="value"
+            activeDot={{ stroke: 'blue', strokeWidth: 1, r: 4 }}
+          />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -88,12 +118,18 @@ const CashHistory = () => {
   }
 
   return (
-    <div>
+    <ChartWrapper>
       <SpotPrice />
+
       <ChartContainer>
         <ChartArea>{content}</ChartArea>
+        <ButtonsBar>
+          <ChartButtons onClick={() => retrievChartData(1)}>1D</ChartButtons>
+          <ChartButtons onClick={() => retrievChartData(7)}>1W</ChartButtons>
+          <ChartButtons onClick={() => retrievChartData(30)}>1M</ChartButtons>
+        </ButtonsBar>
       </ChartContainer>
-    </div>
+    </ChartWrapper>
   );
 };
 

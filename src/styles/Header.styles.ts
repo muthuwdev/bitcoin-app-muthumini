@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import { mobile } from "../responsive";
 
 export const Container = styled.div`
-  height: 3%;
- 
-
+  height: 10vh;
   ${mobile({ height: "50px" })}
 `;
 

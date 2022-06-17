@@ -26,18 +26,6 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.267);
 padding:2px;
 `;
 
-// export const PostItem = styled.div`
-// overflow: hidden;
-// padding: 20px;
-// background-color: #FFF;
-// border-radius: 30px;
-// text-align: center;
-
-// `;
-
-
-
-
 export const PostImage = styled.img`
 width: 100%;
 height: 300px;
