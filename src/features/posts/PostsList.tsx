@@ -3,6 +3,7 @@ import { getPostsStatus, getPostsError, selectLatestPosts } from './PostsSlice';
 import { ContentSection } from '../../styles/PostsList.styles';
 import PostsItem from './PostsItem';
 import { RootState } from '../../app/store';
+import Loader from '../../components/Loader';
 
 const PostsList = () => {
   let orderedPostIds = useSelector((state: RootState) =>
@@ -13,7 +14,11 @@ const PostsList = () => {
   const error = useSelector(getPostsError);
   let content;
   if (postStatus === 'loading') {
-    content = <p>"Loading..."</p>;
+    content = (
+      <div>
+        <Loader />
+      </div>
+    );
   } else if (postStatus === 'succeeded') {
     content = orderedPostIds.map((post) => (
       <PostsItem key={post.publish_date} postItm={post} />

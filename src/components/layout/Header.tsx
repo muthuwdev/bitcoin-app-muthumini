@@ -10,6 +10,7 @@ import {
   Wrapper,
   NavLinkt,
 } from '../../styles/Header.styles';
+import { BiLinkExternal } from 'react-icons/bi';
 
 const Header = () => {
   return (
@@ -22,7 +23,8 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Candidate : Muthumini Waidyarathna
+              <BiLinkExternal />
+              <span> Muthumini Waidyarathna</span>
             </a>
           </ProfileContainer>
         </Left>

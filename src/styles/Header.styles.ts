@@ -5,7 +5,7 @@ import { mobile } from "../responsive";
 export const Container = styled.div`
   height: 10vh;
   width:100%;
-  ${mobile({ display:"none",height: "50px" })}
+
 `;
 
 export const Wrapper = styled.div`
@@ -14,6 +14,7 @@ export const Wrapper = styled.div`
   color:#5200cc;
   display: flex;
   align-items: center;
+  font-family: 'Poppins',sans-serif;
   justify-content: space-between;
   ${mobile({ padding: "0px" })}
 `;
@@ -22,12 +23,33 @@ export const Left = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+  ${mobile({ flex: "3" })}
 `;
 
 
 
+// export const ProfileContainer = styled.div`
+
+//   display: flex;
+//   align-items: center;
+//   margin-left: 25px;
+//   padding: 5px;
+//   color:#5200cc;
+//   font-family: 'Poppins',sans-serif;
+//   font-weight:700;
+//   border:1px solid #5200cc
+
+//   a{
+//     text-decoration:none;
+  
+//   }
+  
+//   ${mobile({ border: "none" })}
+  
+// `;
+
 export const ProfileContainer = styled.div`
-  border: 0.5px solid lightgray;
+ 
   display: flex;
   align-items: center;
   margin-left: 25px;
@@ -35,8 +57,9 @@ export const ProfileContainer = styled.div`
   a{
     text-decoration:none;
     &:hover {
-      
-      color:white;
+      text-decoration: underline;
+  
+      color:#b3c6ff;
     
     }
   }
@@ -51,7 +74,7 @@ export const Center = styled.div`
 
 export const Topic = styled.h1`
   font-weight: bold;
-  ${mobile({ color: "red" })}
+  ${mobile({ display: "none" })}
 `;
 export const Right = styled.div`
   flex: 1;
@@ -74,10 +97,13 @@ export const MenuItem = styled.div`
 export const NavLinkt = styled(Link)` 
   text-decoration: none;
   font-weight:bold;
+  text-align:center;
+  margin-right:3rem;
   &:hover{
-    color:white;
+  
+   
     transform: scale(1.1);
 transition:all 0.5s ease;
   }
-  
+  ${mobile({ marginRight: "1rem" })}
 `;

@@ -18,12 +18,6 @@ type Props = {
     ${mobile({ height:"5vh"})}
   
 `;
-
-
-// export const SpotPriceContainer = styled.div`
-// display:flex
-// ${mobile({ flexDirection:"column",})}`;
-
 export const SpotPriceContent = styled.div<Props>`
 margin-right:1rem;
 color: ${(props) => (props.isValueDropped ? 'red' : 'green')};
@@ -57,27 +51,5 @@ font-size:15px;
 }
 `
 
-// .button {
-//   background: linear-gradient(180deg, teal 26.71%, green 99.36%);
-//   box-shadow: 0px 20px 24px 3px rgba(159, 197, 197, 0.737);
-//   border-radius: 34px;
-//   border: none;
-//   color: white;
-//   font-size: 16px;
-//   padding: 11px 26px 11px 26px;
-// }
 
-// export const GrSpan = styled.div<Props>`
-// color: ${(props) => (props.isValueDropped ? 'red' : 'green')};
-// transform: ${props => props.isValueDropped  ? `scale(1.1)` : `scale(1.2)`};
-// transition:all 0.5s ease;
-// font-size: 40px;
-// font-weight:500px;
-// `
-
-// export const SpotPriceDiv = styled.div<Props>`
-// color: ${(props) => (props.isValueDropped ? 'red' : 'green')};
-// font-size: 30px;
-// font-weight:500px;
-// `
 

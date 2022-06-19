@@ -25,6 +25,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import SpotPrice from '../spotPrice/SpotPrice';
+import Loader from '../../components/Loader';
 
 type FormattedChartVals = {
   date: string;
@@ -89,7 +90,11 @@ const CashHistory = () => {
   let content;
 
   if (historyStatus === 'loading') {
-    content = <p>"Loading..."</p>;
+    content = (
+      <div>
+        <Loader />
+      </div>
+    );
   } else if (historyStatus === 'succeeded') {
     content = (
       // <ResponsiveContainer minWidth={900} minHeight={400} width="99%" aspect={3} width="99.9%" height="99.8%">

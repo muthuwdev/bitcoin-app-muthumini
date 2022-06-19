@@ -1,11 +1,11 @@
 import React from 'react';
-import './Loader.css';
+import { LoadingPanel } from '../styles/Loader.styles';
 
 const Loader = () => {
   return (
-    <div className="loading">
+    <LoadingPanel>
       <div></div>
-    </div>
+    </LoadingPanel>
   );
 };
 

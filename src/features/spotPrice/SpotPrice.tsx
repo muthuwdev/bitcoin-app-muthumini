@@ -14,6 +14,7 @@ import {
 } from '../../styles/SpotPrice.styles';
 import { GrBitcoin } from 'react-icons/gr';
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
+import Loader from '../../components/Loader';
 
 const SpotPrice = () => {
   const dispatch = useAppDispatch();
@@ -67,7 +68,7 @@ const SpotPrice = () => {
           </OpenPriceContent>
         </Fragment>
       ) : (
-        <>Loading ..</>
+        <Loader />
       )}
     </Wrapper>
   );
