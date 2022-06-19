@@ -32,7 +32,6 @@ export const fetchCashHistory = createAsyncThunk(
   'history/fetchCashHistory',
   async () => {
     const response = await axios.get(CASH_HISTORY_URL);
-    console.log('Retrieved ', response);
     return response;
   }
 );
