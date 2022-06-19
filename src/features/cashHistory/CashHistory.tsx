@@ -123,6 +123,10 @@ const CashHistory = () => {
             domain={[chartMinBch, chartMaxBch]}
             interval="preserveEnd"
             orientation="right"
+            label={{
+              value: 'Historical Price(USD)',
+              position: 'outsideRight',
+            }}
             dataKey="value"
             ticks={ticks}
             tickFormatter={(number) => `$${number.toFixed(2)}`}

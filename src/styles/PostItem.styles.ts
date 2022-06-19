@@ -2,15 +2,14 @@ import styled from 'styled-components';
 import { mobile } from "../responsive";
 
 export const Wrapper = styled.article`
+    display: flex;
     align-items: center;
     background-color: #F3F5F7;
     font-family: 'Poppins',sans-serif;
     width: 100%;
     min-height: 90vh;
     color: #1B1C34;
-    display: flex;
     justify-content: space-between;
-
 `;
 
 export const PostContainer = styled.div`
@@ -21,7 +20,6 @@ display:flex;
 flex-direction:column;
 align-items: center;
 justify-content: space-around;
-
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.267);
 padding:2px;
 `;
@@ -29,19 +27,16 @@ padding:2px;
 export const PostImage = styled.img`
 width: 100%;
 height: 300px;
+background-color:#d9e6f2;
     border-radius: 20px;
     object-fit: cover;
 `;
-export const CardBody = styled.div`
-width: 100%;
-padding: 26px 20px 36px 20px;
-`;
-export const CardTittle = styled.h2`
-font-family: 'Merriweather',
-serif;
-font-weight: 900;
-text-transform: capitalize;
 
+export const CardTittle = styled.h2`
+font-family: 'Poppins',sans-serif;
+text-align:center;
+font-weight: 600;
+text-transform: capitalize;
 font-size: 26px;
 padding-bottom: 15px;
 `;
@@ -83,10 +78,3 @@ div{span{font-size:12px;padding-left:5px}}
     }
   }
   `
-  
-export const MenuItem = styled.div`
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 25px;
-  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
-`;

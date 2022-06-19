@@ -27,29 +27,7 @@ div{
     animation-iteration-count: infinite;
   
   
-}
-
-`;
+}`;
 
 
-
-// .loading {
-
-//   }
-  
-//   .loading > div {
-    // width: 10vmax;
-    // height: 10vmax;
-    // border-bottom: 5px solid rgba(0, 0, 0, 0.719);
-  
-    // border-radius: 50%;
-  
-    // animation: loadingRotate 800ms linear infinite;
-//   }
-  
-//   @keyframes loadingRotate {
-//     to {
-//       transform: rotateZ(-360deg);
-//     }
-//   }
   
