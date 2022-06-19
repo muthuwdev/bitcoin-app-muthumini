@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reduxHooks';
 
 import {
@@ -7,14 +7,19 @@ import {
   selectBitcoinPriceStatus,
 } from './SpotPriceSlice';
 import { selectLatestHistoryData } from '../cashHistory/CashHistorySlice';
-import { Wrapper } from '../../styles/SpotPrice.styles';
+import {
+  Wrapper,
+  SpotPriceContent,
+  OpenPriceContent,
+} from '../../styles/SpotPrice.styles';
 import { GrBitcoin } from 'react-icons/gr';
-//
+import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 
 const SpotPrice = () => {
   const dispatch = useAppDispatch();
 
   const currentPrice = useAppSelector(selectBitcoinPrice);
+  const [openPriceDisplay, setOpenPriceDisplay] = useState(0);
 
   const [bitCPrice, setBitCPrice] = useState(currentPrice.price / 100);
   const [isValueDropped, setIsValueDropped] = useState(false);
@@ -36,24 +41,31 @@ const SpotPrice = () => {
   }, [bitCPrice, currentPrice]);
 
   useEffect(() => {
-    if (openPriceOfDay && bitCPrice < openPriceOfDay[1] / 100) {
-      setIsValueDropped(true);
+    if (openPriceOfDay) {
+      let open = openPriceOfDay[1] / 100;
+      setOpenPriceDisplay(open);
+      if (bitCPrice < open) setIsValueDropped(true);
     } else {
       setIsValueDropped(false);
     }
-  }, [bitCPrice, openPriceOfDay]);
+  }, [bitCPrice, openPriceDisplay, openPriceOfDay]);
 
   return (
-    <Wrapper isValueDropped={isValueDropped}>
+    <Wrapper>
       {retrievePriceStatus === 'succeeded' ? (
-        <>
-          <div>
+        <Fragment>
+          <SpotPriceContent isValueDropped={isValueDropped}>
             <GrBitcoin />
-          </div>
-          <div>
-            Current Spot Price - {bitCPrice} USD {openPriceOfDay[1]}
-          </div>
-        </>
+            Current Spot Price {bitCPrice.toFixed(2)}
+            <span>
+              USD
+              {isValueDropped ? <AiOutlineArrowDown /> : <AiOutlineArrowUp />}
+            </span>
+          </SpotPriceContent>
+          <OpenPriceContent isValueDropped={isValueDropped}>
+            Open Price {openPriceDisplay.toFixed(2)} <span>USD</span>
+          </OpenPriceContent>
+        </Fragment>
       ) : (
         <>Loading ..</>
       )}

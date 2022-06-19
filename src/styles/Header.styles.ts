@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { mobile } from "../responsive";
 
@@ -10,6 +11,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   padding: 0px 50px;
   background-color:#668cff;
+  color:#5200cc;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,12 +58,26 @@ export const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+ 
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
 export const MenuItem = styled.div`
-  font-size: 14px;
+  font-size: 18px;
+  text-decoration:none;
   cursor: pointer;
   margin-left: 25px;
+  color:#5200cc;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+`;
+
+export const NavLinkt = styled(Link)` 
+  text-decoration: none;
+  font-weight:bold;
+  &:hover{
+    color:white;
+    transform: scale(1.1);
+transition:all 0.5s ease;
+  }
+  
 `;

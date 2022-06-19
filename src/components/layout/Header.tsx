@@ -8,7 +8,8 @@ import {
   Right,
   ProfileContainer,
   Wrapper,
-} from '../styles/Header.styles';
+  NavLinkt,
+} from '../../styles/Header.styles';
 
 const Header = () => {
   return (
@@ -29,12 +30,12 @@ const Header = () => {
           <Topic>Bitcoin.com Assignment</Topic>
         </Center>
         <Right>
-          <Link to="/">
+          <NavLinkt to="/">
             <MenuItem>Dashboard</MenuItem>
-          </Link>
-          <Link to="/post">
+          </NavLinkt>
+          <NavLinkt to="/post">
             <MenuItem>Posts</MenuItem>
-          </Link>
+          </NavLinkt>
         </Right>
       </Wrapper>
     </Container>

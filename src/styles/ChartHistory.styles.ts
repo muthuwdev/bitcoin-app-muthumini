@@ -31,7 +31,6 @@ export const ChartArea = styled.article`
 
 export const ButtonsBar = styled.div`
 width: 60px;
-   height: 100%;
   display:flex;
   gap:1rem;
     justify-content:center;
@@ -42,17 +41,24 @@ width: 60px;
 export const ChartButtons = styled.button`
 width: 60px;
     height: 30px;
-    background-color:#668cff;
+    background-color:blue;
     border: 1px solid blue;
     margin: 4px 0;
+    color:white;
     border-radius:5px;
+    opacity:0.8;
+    cursor:pointer;
+    box-shadow: 0px 2px 10px 5px #668cff;
     &:hover {
         background-color: #e9f5f5;
         transform: scale(1.1);
         opacity: 1;
+        color:#600cff
       }
   
 
 `;
+
+//#600cff
 
 

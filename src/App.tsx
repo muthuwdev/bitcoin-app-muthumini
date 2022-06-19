@@ -7,7 +7,7 @@ import {
 import { fetchPosts } from './features/posts/PostsSlice';
 import PostsList from './features/posts/PostsList';
 
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import {
   fetchSpotPrice,
