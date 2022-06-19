@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { mobile } from "../responsive";
 
 
 export const ChartContainer = styled.div`
@@ -59,6 +58,5 @@ width: 60px;
 
 `;
 
-//#600cff
 
 

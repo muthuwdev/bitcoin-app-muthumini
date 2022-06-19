@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadingPanel } from '../styles/Loader.styles';
+import { LoadingPanel } from '../../styles/Loader.styles';
 
 const Loader = () => {
   return (

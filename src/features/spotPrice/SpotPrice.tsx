@@ -14,7 +14,7 @@ import {
 } from '../../styles/SpotPrice.styles';
 import { GrBitcoin } from 'react-icons/gr';
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
-import Loader from '../../components/Loader';
+import Loader from '../../components/loader/Loader';
 
 const SpotPrice = () => {
   const dispatch = useAppDispatch();
@@ -42,10 +42,12 @@ const SpotPrice = () => {
   }, [bitCPrice, currentPrice]);
 
   useEffect(() => {
-    if (openPriceOfDay) {
+    if (openPriceOfDay && bitCPrice) {
       let open = openPriceOfDay[1] / 100;
       setOpenPriceDisplay(open);
-      if (bitCPrice < open) setIsValueDropped(true);
+      if (bitCPrice < openPriceOfDay[1] / 100) {
+        setIsValueDropped(true);
+      }
     } else {
       setIsValueDropped(false);
     }

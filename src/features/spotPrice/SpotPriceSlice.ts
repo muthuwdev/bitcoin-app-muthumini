@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../app/store";
+import { ResponseStatus } from "../../enums";
 
 const SPOT_PRICE = 'https://index-api.bitcoin.com/api/v0/cash/price/usd';
 
@@ -14,7 +15,7 @@ export type SpotPrice={
 const initialState:SpotPrice= {
   price: 0,
   stamp: 0,
-  status: 'Idle',
+  status: ResponseStatus.IDLE,
   error: '',
  
 };
@@ -34,11 +35,11 @@ const spotPriceSlice = createSlice({
             const loadedSpotPrice = action.payload.data;
             state.price = loadedSpotPrice.price;
             state.stamp = loadedSpotPrice.stamp;
-            state.status = 'succeeded';
+            state.status = ResponseStatus.SUCCEEDED;
 
         })
         .addCase(fetchSpotPrice.rejected, (state, action) => {
-            state.status = 'failed'
+            state.status = ResponseStatus.FAILED;
             state.error = action.error.message|| '';
         })
     }

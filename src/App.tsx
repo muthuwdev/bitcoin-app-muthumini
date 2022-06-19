@@ -1,18 +1,11 @@
-import React from 'react';
 import { useAppDispatch } from './reduxHooks';
-import {
-  fetchCashHistory,
-  selectLatestHistoryData,
-} from './features/cashHistory/CashHistorySlice';
+import { fetchCashHistory } from './features/cashHistory/CashHistorySlice';
 import { fetchPosts } from './features/posts/PostsSlice';
 import PostsList from './features/posts/PostsList';
 
 import Layout from './components/layout/Layout';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import {
-  fetchSpotPrice,
-  selectBitcoinPriceStatus,
-} from './features/spotPrice/SpotPriceSlice';
+import { fetchSpotPrice } from './features/spotPrice/SpotPriceSlice';
 import Dashboard from './features/dashboard/Dashboard';
 
 function App(): JSX.Element {

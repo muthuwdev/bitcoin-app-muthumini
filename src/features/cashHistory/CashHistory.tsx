@@ -6,12 +6,13 @@ import {
   ChartContainer,
 } from '../../styles/ChartHistory.styles';
 import { format, parseISO } from 'date-fns';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getHistoryStatus,
   getHistoryError,
   selectPartialHistoryData,
   HistoryItem,
+  FormattedChartVals,
 } from './CashHistorySlice';
 import {
   LineChart,
@@ -24,64 +25,89 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from 'recharts';
-import SpotPrice from '../spotPrice/SpotPrice';
-import Loader from '../../components/Loader';
+import Loader from '../../components/loader/Loader';
+import { ResponseStatus } from '../../enums';
+import { error } from 'console';
 
-type FormattedChartVals = {
-  date: string;
-  value: number;
+export type ChartMinMaxVals = {
+  min: number;
+  max: number;
 };
 
 const CashHistory = () => {
   const historyStatus = useAppSelector(getHistoryStatus);
   const error = useAppSelector(getHistoryError);
+  // let ticks: number[] = [];
+  const [formattedTicks, setFormattedTicks] = useState(new Array<number>());
+  // const [chartMaxBch, setChartMaxBch] = useState(0);
+  // const [chartMinBch, setChartMinBch] = useState(0);
+  const [chartMinMax, setChartMinMax] = useState(new Array<ChartMinMaxVals>());
 
   const [countedDays, setCountedDays] = useState(30);
-  const historyData = useAppSelector((state) =>
+  const formattedValArr = useAppSelector((state) =>
     selectPartialHistoryData(state, countedDays)
   );
 
-  let formattedValArr = new Array<FormattedChartVals>();
+  // let formattedValArr = new Array<FormattedChartVals>();
 
-  if (historyData) {
-    let formattedValsTemp = historyData.map((x: HistoryItem) => {
-      return { date: x[0].substring(0, 10), value: Number(x[1]) / 100 };
+  // if (historyData) {
+  //   let formattedValsTemp = historyData.map((x: HistoryItem) => {
+  //     return { date: x[0].substring(0, 10), value: Number(x[1]) / 100 };
+  //   });
+  //   formattedValArr = formattedValsTemp;
+  // }
+
+  // useEffect(() => {
+  //   }, []);
+
+  useEffect(() => {
+    const ids = formattedValArr.map((object) => {
+      return object.value;
     });
-    formattedValArr = formattedValsTemp;
-  }
+    if (ids) {
+      let chartMax = Math.max(...ids);
+      let chartMin = Math.min(...ids);
+      // setChartMaxBch(chartMax + 20);
+      // setChartMinBch(chartMin  - 10);
+      setChartMinMax([{ min: chartMin - 10, max: chartMax + 20 }]);
+    }
+  }, [formattedValArr]);
 
-  const ids = formattedValArr.map((object) => {
-    return object.value;
-  });
-  let chartMax = Math.max(...ids);
-  let chartMin = Math.min(...ids);
-  let chartMaxBch = chartMax + 20;
-  let chartMinBch = chartMin - 10;
-  let ticks: number[] = [];
-  let dataGap = chartMax - chartMin;
-  dataGap = Math.round(dataGap);
-  dataGap = Math.round(dataGap / 10);
+  useEffect(() => {
+    if (chartMinMax.length) {
+      const chartMin = chartMinMax[0].min;
+      const chartMax = chartMinMax[0].max;
+      let dataGap = -chartMin;
+      dataGap = Math.round(dataGap);
+      dataGap = Math.round(dataGap / 10);
+      if (dataGap <= 0) {
+        dataGap = 10;
+      } else {
+        let dataStr = dataGap.toString();
+        dataGap = 10 - Number(dataStr.substring(dataStr.length - 1)) + dataGap;
+      }
 
-  if (dataGap <= 0) {
-    dataGap = 10;
-  } else {
-    let dataStr = dataGap.toString();
-    dataGap = 10 - Number(dataStr.substring(dataStr.length - 1)) + dataGap;
-  }
+      const replaced = Math.round(chartMin).toString().slice(0, -1) + '0';
+      let startVal = Number(replaced);
+      let ticks = [];
+      for (let i = startVal; i <= chartMax; ) {
+        ticks.push(i);
+        i = i + dataGap;
+      }
+      if (!ticks.includes(chartMax)) {
+        ticks.push(chartMax);
+      }
+      if (!ticks.includes(chartMin)) {
+        ticks.push(chartMin);
+      }
+      setFormattedTicks(ticks.sort((a, b) => a - b));
+    }
+  }, [chartMinMax]);
 
-  const replaced = Math.round(chartMin).toString().slice(0, -1) + '0';
-  let startVal = Number(replaced);
-  for (let i = startVal; i <= chartMax; ) {
-    ticks.push(i);
-    i = i + dataGap;
-  }
-  if (!ticks.includes(chartMax)) {
-    ticks.push(chartMax);
-  }
-  if (!ticks.includes(chartMin)) {
-    ticks.push(chartMin);
-  }
-  ticks = ticks.sort((a, b) => a - b);
+  // let ticks: number[] = [];
+  // let dataGap = chartMax - chartMin;
+  // dataGap = Math.round(dataGap);
+  // dataGap = Math.round(dataGap / 10);
 
   const retrievChartData = (daysCount: number) => {
     setCountedDays(daysCount);
@@ -89,15 +115,14 @@ const CashHistory = () => {
 
   let content;
 
-  if (historyStatus === 'loading') {
+  if (historyStatus === ResponseStatus.LOADING) {
     content = (
       <div>
         <Loader />
       </div>
     );
-  } else if (historyStatus === 'succeeded') {
+  } else if (historyStatus === ResponseStatus.SUCCEEDED && chartMinMax.length) {
     content = (
-      // <ResponsiveContainer minWidth={900} minHeight={400} width="99%" aspect={3} width="99.9%" height="99.8%">
       <ResponsiveContainer width="99.9%" height="99.8%">
         <LineChart
           width={500}
@@ -120,7 +145,7 @@ const CashHistory = () => {
             }}
           />
           <YAxis
-            domain={[chartMinBch, chartMaxBch]}
+            domain={[chartMinMax[0].min, chartMinMax[0].max]}
             interval="preserveEnd"
             orientation="right"
             label={{
@@ -128,20 +153,20 @@ const CashHistory = () => {
               position: 'outsideRight',
             }}
             dataKey="value"
-            ticks={ticks}
+            ticks={formattedTicks}
             tickFormatter={(number) => `$${number.toFixed(2)}`}
           />
           <Tooltip />
           <Legend />
 
           <ReferenceLine
-            y={chartMax}
+            y={chartMinMax[0].max - 20}
             label=""
             stroke="#00cc66"
             strokeDasharray="3 3"
           />
           <ReferenceLine
-            y={chartMin}
+            y={chartMinMax[0].min + 10}
             label=""
             stroke="#ff4d4d"
             strokeDasharray="3 3"
@@ -153,7 +178,7 @@ const CashHistory = () => {
         </LineChart>
       </ResponsiveContainer>
     );
-  } else if (historyStatus === 'failed') {
+  } else if (historyStatus === ResponseStatus.FAILED) {
     content = <p>{error}</p>;
   }
 

@@ -7,6 +7,7 @@ import {
   import axios from 'axios';
   
   import {RootState} from '../../app/store';
+import { ResponseStatus } from '../../enums';
   
   const POSTS_URL = 'wp-content/weekly_popular_posts.json';
   
@@ -25,7 +26,7 @@ import {
   });
   
   const initialState = postsAdapter.getInitialState({
-    status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+    status: ResponseStatus.IDLE, //'idle' | 'loading' | 'succeeded' | 'failed'
     error: '',
   });
   
@@ -44,17 +45,17 @@ import {
     extraReducers(builder) {
       builder
         .addCase(fetchPosts.pending, (state, action) => {
-          state.status = 'loading';
+          state.status = ResponseStatus.LOADING;
         })
         .addCase(fetchPosts.fulfilled, (state, action) => {
-          state.status = 'succeeded';
+          state.status = ResponseStatus.SUCCEEDED;
   
           const loadedPosts = action.payload.data;
           // Add any fetched posts to the array
           postsAdapter.upsertMany(state, loadedPosts);
         })
         .addCase(fetchPosts.rejected, (state, action) => {
-          state.status = 'failed';
+          state.status = ResponseStatus.FAILED;
           state.error = action.error.message|| '';
         });
     },

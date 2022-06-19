@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { mobile } from "../responsive";
-
 export const Wrapper = styled.article`
     display: flex;
     align-items: center;

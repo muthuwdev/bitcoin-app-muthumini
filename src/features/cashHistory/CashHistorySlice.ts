@@ -7,18 +7,25 @@ import {
 import axios from 'axios';
 
 import {RootState} from '../../app/store';
+import { ResponseStatus } from '../../enums';
 
 const CASH_HISTORY_URL = 'https://index-api.bitcoin.com/api/v0/cash/history';
 
 
 
 export type HistoryItem = [string,  number];
+
+export type FormattedChartVals = {
+  date: string;
+  value: number;
+};
+
 const cashHistoryAdapter = createEntityAdapter<HistoryItem>({
     // Assume  date string as the id
   selectId: (historyItem) => historyItem[0],
 });
 const initialState = cashHistoryAdapter.getInitialState({
-  status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+  status:ResponseStatus.IDLE, //'idle' | 'loading' | 'succeeded' | 'failed'
   error: '',
 });
 export const fetchCashHistory = createAsyncThunk(
@@ -37,14 +44,14 @@ const cashHistorySlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchCashHistory.pending, (state, action) => {
-        state.status = 'loading';
+        state.status = ResponseStatus.LOADING;
       })
       .addCase(fetchCashHistory.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = ResponseStatus.FAILED;
         state.error = action.error.message|| '';
       })
       .addCase(fetchCashHistory.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = ResponseStatus.SUCCEEDED;
         const loadedCashHistory = action.payload.data;
         cashHistoryAdapter.upsertMany(state, loadedCashHistory);
       });
@@ -61,7 +68,12 @@ export const {
 
 export const selectPartialHistoryData = createSelector(
   [selectAllCashHistory, (state, numOfDates) => numOfDates],
-  (cashHistory, numOfDates) => cashHistory.slice(0, numOfDates)
+  (cashHistory, numOfDates) =>{let historyData= cashHistory.slice(0, numOfDates);
+    let formattedValsTemp:FormattedChartVals[] = historyData.map((x: HistoryItem) => {
+      return { date: x[0].substring(0, 10), value: Number(x[1]) / 100 };
+    });
+    return formattedValsTemp;
+  }
 );
 
 export const selectLatestHistoryData = createSelector(
