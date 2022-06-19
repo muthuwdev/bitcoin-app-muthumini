@@ -28,7 +28,9 @@ const PostsItem: React.FC<Props> = ({ postItm }) => {
           <div>
             <ReadMoreSpan>
               <FiExternalLink />
-              Read More
+              <a href={postItm.href} target="_blank" rel="noopener noreferrer">
+                Read More
+              </a>
             </ReadMoreSpan>
           </div>
         </ReadMore>

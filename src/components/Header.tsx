@@ -16,7 +16,13 @@ const Header = () => {
       <Wrapper>
         <Left>
           <ProfileContainer>
-            Candidate : Muthumini Waidyarathna
+            <a
+              href="https://muthuminiw-portfolio.herokuapp.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Candidate : Muthumini Waidyarathna
+            </a>
           </ProfileContainer>
         </Left>
         <Center>

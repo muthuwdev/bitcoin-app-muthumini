@@ -1,12 +1,18 @@
 import React from 'react';
 import { useAppDispatch } from './reduxHooks';
-import { fetchCashHistory } from './features/cashHistory/CashHistorySlice';
+import {
+  fetchCashHistory,
+  selectLatestHistoryData,
+} from './features/cashHistory/CashHistorySlice';
 import { fetchPosts } from './features/posts/PostsSlice';
 import PostsList from './features/posts/PostsList';
 
 import Layout from './components/Layout';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { fetchSpotPrice } from './features/spotPrice/SpotPriceSlice';
+import {
+  fetchSpotPrice,
+  selectBitcoinPriceStatus,
+} from './features/spotPrice/SpotPriceSlice';
 import Dashboard from './features/dashboard/Dashboard';
 
 function App(): JSX.Element {
@@ -14,6 +20,7 @@ function App(): JSX.Element {
   dispatch(fetchCashHistory());
   dispatch(fetchPosts());
   dispatch(fetchSpotPrice());
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

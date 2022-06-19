@@ -12,7 +12,7 @@ const CASH_HISTORY_URL = 'https://index-api.bitcoin.com/api/v0/cash/history';
 
 
 
-export type HistoryItem = [string,  Number];
+export type HistoryItem = [string,  number];
 const cashHistoryAdapter = createEntityAdapter<HistoryItem>({
     // Assume  date string as the id
   selectId: (historyItem) => historyItem[0],
@@ -64,7 +64,10 @@ export const selectPartialHistoryData = createSelector(
   (cashHistory, numOfDates) => cashHistory.slice(0, numOfDates)
 );
 
-
+export const selectLatestHistoryData = createSelector(
+  [selectAllCashHistory, (state) => {}],
+  (cashHistory) => cashHistory[0]
+);
 
 
 export const getHistoryStatus = (state:RootState) => state.cashHistory.status;

@@ -1,20 +1,5 @@
 import styled from 'styled-components';
-
-
-// export const ChartWrapper = styled.article`
-//     align-items: center;
-    
-//     font-family: 'Poppins',sans-serif;
-  
-//     height: 85vh;
-//     display:flex;
-//     flex-direction:column;
-//     align-items:center;
-//     justify-content:center;
-//     padding:0;
-
-// `;
-
+import { mobile } from "../responsive";
 
 
 export const ChartContainer = styled.div`
@@ -24,17 +9,31 @@ export const ChartContainer = styled.div`
     font-family: 'Poppins',sans-serif;
     width: 1000px;
     height:500px;
-  
+  padding:0px;
     display:flex;
     align-items:center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.267);
+    overflow-x: auto;
+    overflow-y: hidden;
+   
 
 `;
 
-export const ButtonsBar = styled.div`
-width: 60px;
+export const ChartArea = styled.article`
+    width: 100%;
     height: 100%;
   
+    align-items:center;
+    justify-content:center;
+    display:flex;
+`;
+
+
+export const ButtonsBar = styled.div`
+width: 60px;
+   height: 100%;
+  display:flex;
+  gap:1rem;
     justify-content:center;
     
     
@@ -56,9 +55,4 @@ width: 60px;
 
 `;
 
-export const ChartArea = styled.article`
-    width: 100%;
-    height: 100%;
-
-`;
 

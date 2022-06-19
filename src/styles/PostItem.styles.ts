@@ -67,7 +67,22 @@ div{span{font-size:12px;padding-left:5px}}
   background-color:black;
   color:white;
   padding:3px;
-  border-radius:10px`
+  border-radius:10px;
+  &:hover {
+
+    color:grey;
+  }
+  a{
+    text-decoration:none;
+    margin-right:3px;
+    color:white;
+    &:hover {
+      text-decoration: underline;
+      color:grey;
+    
+    }
+  }
+  `
   
 export const MenuItem = styled.div`
   font-size: 14px;

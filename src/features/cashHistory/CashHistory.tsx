@@ -92,7 +92,8 @@ const CashHistory = () => {
     content = <p>"Loading..."</p>;
   } else if (historyStatus === 'succeeded') {
     content = (
-      <ResponsiveContainer minWidth={900} minHeight={400}>
+      // <ResponsiveContainer minWidth={900} minHeight={400} width="99%" aspect={3} width="99.9%" height="99.8%">
+      <ResponsiveContainer width="99.9%" height="99.8%">
         <LineChart
           width={500}
           height={300}
@@ -148,14 +149,16 @@ const CashHistory = () => {
   }
 
   return (
-    <ChartContainer>
-      <ChartArea>{content}</ChartArea>
+    <>
+      <ChartArea>
+        <ChartContainer>{content}</ChartContainer>
+      </ChartArea>
       <ButtonsBar>
         <ChartButtons onClick={() => retrievChartData(1)}>1D</ChartButtons>
         <ChartButtons onClick={() => retrievChartData(7)}>1W</ChartButtons>
         <ChartButtons onClick={() => retrievChartData(30)}>1M</ChartButtons>
       </ButtonsBar>
-    </ChartContainer>
+    </>
   );
 };
 

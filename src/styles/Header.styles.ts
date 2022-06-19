@@ -3,7 +3,8 @@ import { mobile } from "../responsive";
 
 export const Container = styled.div`
   height: 10vh;
-  ${mobile({ height: "50px" })}
+  width:100%;
+  ${mobile({ display:"none",height: "50px" })}
 `;
 
 export const Wrapper = styled.div`
@@ -12,7 +13,7 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${mobile({ padding: "10px 0px" })}
+  ${mobile({ padding: "0px" })}
 `;
 
 export const Left = styled.div`
@@ -29,6 +30,14 @@ export const ProfileContainer = styled.div`
   align-items: center;
   margin-left: 25px;
   padding: 5px;
+  a{
+    text-decoration:none;
+    &:hover {
+      
+      color:white;
+    
+    }
+  }
 `;
 
 
@@ -40,7 +49,7 @@ export const Center = styled.div`
 
 export const Topic = styled.h1`
   font-weight: bold;
-  ${mobile({ fontSize: "24px" })}
+  ${mobile({ color: "red" })}
 `;
 export const Right = styled.div`
   flex: 1;
