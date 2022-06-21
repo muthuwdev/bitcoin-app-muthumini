@@ -11,8 +11,6 @@ import {
   getHistoryStatus,
   getHistoryError,
   selectPartialHistoryData,
-  HistoryItem,
-  FormattedChartVals,
 } from './CashHistorySlice';
 import {
   LineChart,
@@ -27,7 +25,6 @@ import {
 } from 'recharts';
 import Loader from '../../components/loader/Loader';
 import { ResponseStatus } from '../../enums';
-import { error } from 'console';
 
 export type ChartMinMaxVals = {
   min: number;
@@ -37,29 +34,13 @@ export type ChartMinMaxVals = {
 const CashHistory = () => {
   const historyStatus = useAppSelector(getHistoryStatus);
   const error = useAppSelector(getHistoryError);
-  // let ticks: number[] = [];
   const [formattedTicks, setFormattedTicks] = useState(new Array<number>());
-  // const [chartMaxBch, setChartMaxBch] = useState(0);
-  // const [chartMinBch, setChartMinBch] = useState(0);
   const [chartMinMax, setChartMinMax] = useState(new Array<ChartMinMaxVals>());
 
   const [countedDays, setCountedDays] = useState(30);
   const formattedValArr = useAppSelector((state) =>
     selectPartialHistoryData(state, countedDays)
   );
-
-  // let formattedValArr = new Array<FormattedChartVals>();
-
-  // if (historyData) {
-  //   let formattedValsTemp = historyData.map((x: HistoryItem) => {
-  //     return { date: x[0].substring(0, 10), value: Number(x[1]) / 100 };
-  //   });
-  //   formattedValArr = formattedValsTemp;
-  // }
-
-  // useEffect(() => {
-  //   }, []);
-
   useEffect(() => {
     const ids = formattedValArr.map((object) => {
       return object.value;
@@ -67,8 +48,6 @@ const CashHistory = () => {
     if (ids) {
       let chartMax = Math.max(...ids);
       let chartMin = Math.min(...ids);
-      // setChartMaxBch(chartMax + 20);
-      // setChartMinBch(chartMin  - 10);
       setChartMinMax([{ min: chartMin - 10, max: chartMax + 20 }]);
     }
   }, [formattedValArr]);
@@ -103,11 +82,6 @@ const CashHistory = () => {
       setFormattedTicks(ticks.sort((a, b) => a - b));
     }
   }, [chartMinMax]);
-
-  // let ticks: number[] = [];
-  // let dataGap = chartMax - chartMin;
-  // dataGap = Math.round(dataGap);
-  // dataGap = Math.round(dataGap / 10);
 
   const retrievChartData = (daysCount: number) => {
     setCountedDays(daysCount);

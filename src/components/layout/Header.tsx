@@ -28,7 +28,7 @@ const Header = () => {
           </ProfileContainer>
         </Left>
         <Center>
-          <Topic>Bitcoin.com Assignment</Topic>
+          <Topic>Bitcoin Dashboard</Topic>
         </Center>
         <Right>
           <NavLinkt to="/">
